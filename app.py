@@ -22,7 +22,7 @@ def send_message(prompts, creativity_level):
         "stop_sequences": ["\n\nHuman:"]
     }
 
-    # Make a POST request to the Claude API
+      # Make a POST request to the Claude API
     try:
         response = requests.post(api_url, headers=headers, data=json.dumps(body))
         response.raise_for_status()
