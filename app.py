@@ -3,7 +3,7 @@ import requests
 import json
 
 # Claude functions
-def send_message(prompts, creativity_level):
+def create_text(prompt):
     api_url = "https://api.anthropic.com/v1/complete"
     headers = {
         "Content-Type": "application/json",
@@ -11,13 +11,13 @@ def send_message(prompts, creativity_level):
     }
 
     # Prepare the prompt for Claude
-    conversation = f"\n\nHuman: {prompts}\n\nAssistant:"
+    conversation = f"Human: {prompt}\n\nAssistant:"
 
     # Define the body of the request
     body = {
         "prompt": conversation,
         "model": "claude-v1.3-100k",
-        "temperature": creativity_level,
+        "temperature": 0,
         "max_tokens_to_sample": 10000,
         "stop_sequences": ["\n\nHuman:"]
     }
@@ -40,16 +40,10 @@ def send_message(prompts, creativity_level):
     # Extract Claude's response from the JSON response
     result = response.json()
 
-    # Print the entire API response
-    st.write(result)
-
     # Return Claude's response as a string
-    completion = result.get('completion')
-    if completion is not None:
-        return completion
-    else:
-        st.error("No completion found in the API response.")
-        return None
+    return result['completion']
+
+
 
 
 # Load documents
@@ -169,7 +163,7 @@ def create_content_page():
         prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
 
         # Call the 'send_message()' function with the 'prompts' variable
-        result = send_message(prompts, creativity_level)
+        result = create_text(prompts)
 
         # Display the result
         st.write(result)
@@ -204,7 +198,7 @@ def create_communications_piece_page():
         prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
 
         # Call the 'send_message()' function with the 'prompts' variable
-        result = send_message(prompts, creativity_level)
+        result = create_text(prompts)
 
         # Display the result
         st.write(result)
