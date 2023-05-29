@@ -162,16 +162,18 @@ def create_content_page():
     intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
 
     if st.button('Create'):
-        # Create the 'prompts' variable
-        prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
+        with st.spinner('Escribiendo correo...'):
+        
+            # Create the 'prompts' variable
+            prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
 
-        # Call the 'send_message()' function with the 'prompts' variable
-        result = create_text(prompts, creativity_level)
+            # Call the 'send_message()' function with the 'prompts' variable
+            result = create_text(prompts, creativity_level)
 
-        # Display the prompt
-        st.write(prompts)
-        # Display the result
-        st.write(result)
+            # Display the prompt
+            st.write(prompts)
+            # Display the result
+            st.write(result)
 
 
 def create_communications_piece_page():
@@ -194,16 +196,17 @@ def create_communications_piece_page():
     intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
 
     if st.button('Create'):
-        # Create the 'prompts' variable
-        prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
+        with st.spinner('Writting...'):
+            # Create the 'prompts' variable
+            prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
 
-        # Call the 'send_message()' function with the 'prompts' variable
-        result = create_text(prompts, creativity_level)
+            # Call the 'send_message()' function with the 'prompts' variable
+            result = create_text(prompts, creativity_level)
 
-        # Display the prompt
-        st.write(prompts)
-        # Display the result
-        st.write(result)
+            # Display the prompt
+            st.write(prompts)
+            # Display the result
+            st.write(result)
 
         
 
