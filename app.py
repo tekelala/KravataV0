@@ -11,7 +11,7 @@ def send_message(prompts, creativity_level):
     }
 
     # Prepare the prompt for Claude
-    conversation = f"Human: {prompts}\n\nAssistant:"
+    conversation = f"\n\nHuman: {prompts}\n\nAssistant:"
 
     # Define the body of the request
     body = {
@@ -40,8 +40,8 @@ def send_message(prompts, creativity_level):
     # Extract Claude's response from the JSON response
     result = response.json()
 
-    # Check the type of the 'result' variable
-    st.write(type(result))
+    # Print the entire API response
+    st.write(result)
 
     # Return Claude's response as a string
     completion = result.get('completion')
