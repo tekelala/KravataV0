@@ -2,6 +2,10 @@ import streamlit as st
 import requests
 import json
 
+# Initialize session state variables
+if "result" not in st.session_state:
+    st.session_state.result = ""
+
 # Claude functions
 def create_text(prompt, temperature):
     api_url = "https://api.anthropic.com/v1/complete"
@@ -163,17 +167,25 @@ def create_content_page():
 
     if st.button('Create'):
         with st.spinner('Writting...'):
-        
             # Create the 'prompts' variable
             prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
 
             # Call the 'send_message()' function with the 'prompts' variable
-            result = create_text(prompts, creativity_level)
+            st.session_state.result = create_text(prompts, creativity_level)
 
             # Display the prompt
             st.write(prompts)
             # Display the result
-            st.write(result)
+            st.write(st.session_state.result)
+
+    # Allow the user to propose changes
+    if st.session_state.result != "":
+        user_changes = st.text_input('Propose changes to the content:')
+        if user_changes:
+            prompts += f" Please change the content with the following instructions: {user_changes.strip()}"
+            with st.spinner('Applying changes...'):
+                st.session_state.result = create_text(prompts, creativity_level)
+            st.write(st.session_state.result)
 
 
 def create_communications_piece_page():
@@ -201,12 +213,21 @@ def create_communications_piece_page():
             prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
 
             # Call the 'send_message()' function with the 'prompts' variable
-            result = create_text(prompts, creativity_level)
+            st.session_state.result = create_text(prompts, creativity_level)
 
             # Display the prompt
             st.write(prompts)
             # Display the result
-            st.write(result)
+            st.write(st.session_state.result)
+
+    # Allow the user to propose changes
+    if st.session_state.result != "":
+        user_changes = st.text_input('Propose changes to the communications piece:')
+        if user_changes:
+            prompts += f" Please change the communications piece with the following instructions: {user_changes.strip()}"
+            with st.spinner('Applying changes...'):
+                st.session_state.result = create_text(prompts, creativity_level)
+            st.write(st.session_state.result)
 
         
 
