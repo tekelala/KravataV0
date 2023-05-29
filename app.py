@@ -3,7 +3,7 @@ import requests
 import json
 
 # Claude functions
-def create_text(prompt):
+def create_text(prompt, temperature):
     api_url = "https://api.anthropic.com/v1/complete"
     headers = {
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ def create_text(prompt):
     body = {
         "prompt": conversation,
         "model": "claude-v1.3-100k",
-        "temperature": 0,
+        "temperature": temperature,
         "max_tokens_to_sample": 10000,
         "stop_sequences": ["\n\nHuman:"]
     }
@@ -163,8 +163,10 @@ def create_content_page():
         prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
 
         # Call the 'send_message()' function with the 'prompts' variable
-        result = create_text(prompts)
+        result = create_text(prompts, creativity_level)
 
+        # Display the prompt
+        st.write(prompts)
         # Display the result
         st.write(result)
         # Check if 'completion' is in the result
@@ -198,8 +200,10 @@ def create_communications_piece_page():
         prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
 
         # Call the 'send_message()' function with the 'prompts' variable
-        result = create_text(prompts)
+        result = create_text(prompts, creativity_level)
 
+        # Display the prompt
+        st.write(prompts)
         # Display the result
         st.write(result)
 
