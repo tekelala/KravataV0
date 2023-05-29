@@ -11,7 +11,7 @@ def send_message(prompts, creativity_level):
     }
 
     # Prepare the prompt for Claude
-    conversation = f"Human: {prompt}\n\nAssistant:"
+    conversation = f"Human: {prompts}\n\nAssistant:"
 
     # Define the body of the request
     body = {
