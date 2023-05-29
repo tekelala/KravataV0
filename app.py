@@ -102,7 +102,7 @@ def transversal_options():
     length_in_words = st.number_input('How long in words?', min_value=1, format="%i")
 
     # Context
-    context = st.text_area('Context', 'Paste any relevant information like previous communications or specific information it is important to take into account')
+    context = st.text_area('Context. Paste any relevant information like previous communications or specific information it is important to take into account')
 
     return intention, language, audience, tone, length_in_words, context, creativity_level
 
@@ -113,7 +113,8 @@ def prompt_creator_content(content_type, social_network, other_social_network, i
     prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
                 Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
                 The purpose is {intention}
-                Here is some context: {context}'''
+                Here is some context: {context}
+                Task: Write the content'''
 
     return prompts
 
@@ -122,7 +123,8 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
     prompts = f'''Role: You are an AI assistant expert in crafting {communication_piece_type} {other_communication_piece} for Kravata and your answers needs to be always in {language}. 
                 Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
                 The purpose is {intention} and you are writting to {name_receiver}
-                Here is some context: {context}'''
+                Here is some context: {context}
+                Task: Write the content'''
 
     return prompts
 
@@ -169,11 +171,6 @@ def create_content_page():
         st.write(prompts)
         # Display the result
         st.write(result)
-        # Check if 'completion' is in the result
-        if 'completion' in result:
-            st.write(result['completion'])
-        else:
-            st.error("No completion found in the API response.")
 
 
 def create_communications_piece_page():
