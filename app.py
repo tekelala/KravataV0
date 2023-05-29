@@ -112,7 +112,7 @@ def transversal_options():
 # Function to create the prompt for the content generation
 def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context):
     prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {word_count} words. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {word_count} words. No need to write what you are doing. 
                 The purpose is {intention}
                 Here is some context: {context}
                 Task: Craft the content'''
@@ -122,7 +122,7 @@ def prompt_creator_content(content_type, social_network, other_social_network, i
 # Function to create the prompt for the communications generation
 def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, word_count, intention, context):
     prompts = f'''Role: You are an AI assistant expert in crafting {communication_piece_type} {other_communication_piece} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. No need to write what you are doing. 
                 The purpose is {intention} and you are writting to {name_receiver}
                 Here is some context: {context}
                 Task: Craft the communications piece'''
