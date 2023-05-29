@@ -10,20 +10,38 @@ def send_message(prompts, creativity_level):
         "X-API-Key": st.secrets["API_KEY"]  # Use the API key from Streamlit's secrets
     }
 
+    # Prepare the prompt for Claude
+    conversation = f"Human: {prompt}\n\nAssistant:"
+
     # Define the body of the request
     body = {
-        "prompt": prompts,
-        "model": "claude-v1.3",
+        "prompt": conversation,
+        "model": "claude-v1.3-100k",
         "temperature": creativity_level,
-        "max_tokens_to_sample": 1000,
+        "max_tokens_to_sample": 10000,
         "stop_sequences": ["\n\nHuman:"]
     }
 
     # Make a POST request to the Claude API
-    response = requests.post(api_url, headers=headers, data=json.dumps(body))
-    response.raise_for_status()
+    try:
+        response = requests.post(api_url, headers=headers, data=json.dumps(body))
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as errh:
+        st.error(f"HTTP Error: {errh}")
+    except requests.exceptions.ConnectionError as errc:
+        st.error(f"Error Connecting: {errc}")
+    except requests.exceptions.Timeout as errt:
+        st.error(f"Timeout Error: {errt}")
+    except requests.exceptions.RequestException as err:
+        st.error(f"Something went wrong: {err}")
+    except Exception as e:
+        st.error(f"Unexpected error: {e}")
 
-    return response.json()
+    # Extract Claude's response from the JSON response
+    result = response.json()
+
+    # Return Claude's response as a string
+    return result['completion']
 
 # Load documents
 
@@ -145,7 +163,7 @@ def create_content_page():
         result = send_message(prompts, creativity_level)
 
         # Display the result
-        st.write(result['choices'][0]['text'])
+        st.write(result)
 
 
 def create_communications_piece_page():
@@ -175,7 +193,7 @@ def create_communications_piece_page():
         result = send_message(prompts, creativity_level)
 
         # Display the result
-        st.write(result['choices'][0]['text'])
+        st.write(result)
 
 
 # Create a dictionary of pages
