@@ -165,6 +165,8 @@ def create_content_page():
 
     intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
 
+    prompts = ""  # Initialize prompts variable
+    
     if st.button('Create'):
         with st.spinner('Writting...'):
             # Create the 'prompts' variable
@@ -181,11 +183,12 @@ def create_content_page():
     # Allow the user to propose changes
     if st.session_state.result != "":
         user_changes = st.text_input('Propose changes to the content:')
-        if user_changes:
-            prompts += f" Please change the content with the following instructions: {user_changes.strip()}"
-            with st.spinner('Applying changes...'):
-                st.session_state.result = create_text(prompts, creativity_level)
-            st.write(st.session_state.result)
+        if st.button('Applying Changes'):
+            if user_changes:
+                prompts += f" Please change the content with the following instructions: {user_changes.strip()}"
+                with st.spinner('Applying changes...'):
+                    st.session_state.result = create_text(prompts, creativity_level)
+                st.write(st.session_state.result)
 
 
 def create_communications_piece_page():
@@ -207,6 +210,8 @@ def create_communications_piece_page():
     
     intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
 
+    prompts = ""  # Initialize prompts variable
+
     if st.button('Create'):
         with st.spinner('Writting...'):
             # Create the 'prompts' variable
@@ -223,11 +228,12 @@ def create_communications_piece_page():
     # Allow the user to propose changes
     if st.session_state.result != "":
         user_changes = st.text_input('Propose changes to the communications piece:')
-        if user_changes:
-            prompts += f" Please change the communications piece with the following instructions: {user_changes.strip()}"
-            with st.spinner('Applying changes...'):
-                st.session_state.result = create_text(prompts, creativity_level)
-            st.write(st.session_state.result)
+        if st.button('Applying Changes'):
+            if user_changes:
+                prompts += f" Please change the communications piece with the following instructions: {user_changes.strip()}"
+                with st.spinner('Applying changes...'):
+                    st.session_state.result = create_text(prompts, creativity_level)
+                st.write(st.session_state.result)
 
         
 
