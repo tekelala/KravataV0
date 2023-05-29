@@ -154,7 +154,8 @@ def create_communications_piece_page():
     # Ask the user what type of communication piece they want to create
     communication_piece_type = st.selectbox(
         'What piece of communication do you want to create?',
-        ['Email', 'Presentation Letter', 'Instant Message', 'SMS', 'Other']
+        ['Email', 'Presentation Letter', 'Instant Message', 'SMS', 'Other'],
+        key='communication_piece_type_selectbox'
     )
 
     # If the user chooses 'Other', provide a text box for them to specify
