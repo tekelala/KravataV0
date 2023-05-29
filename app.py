@@ -22,7 +22,7 @@ def send_message(prompts, creativity_level):
         "stop_sequences": ["\n\nHuman:"]
     }
 
-      # Make a POST request to the Claude API
+    # Make a POST request to the Claude API
     try:
         response = requests.post(api_url, headers=headers, data=json.dumps(body))
         response.raise_for_status()
@@ -40,8 +40,15 @@ def send_message(prompts, creativity_level):
     # Extract Claude's response from the JSON response
     result = response.json()
 
-    # Return Claude's response as a string
-    return result['completion']
+    # Print the full API response
+    st.write("API response:", result)
+
+    # Check if 'completion' is in the result
+    if 'completion' in result:
+        return result['completion']
+    else:
+        st.error("No completion found in the API response.")
+        return None
 
 # Load documents
 
