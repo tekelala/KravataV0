@@ -99,7 +99,8 @@ def transversal_options():
     creativity_level = st.number_input('Creativity level', min_value=0.0, max_value=1.0, step=0.1, format="%.1f")
 
     # Length in words
-    length_in_words = st.number_input('How long in words?', min_value=1, format="%i")
+    length_in_words = st.number_input('How long in words?', min_value=1, value=500, format="%i")
+
 
     # Context
     context = st.text_area('Context. Paste any relevant information like previous communications or specific information it is important to take into account')
@@ -111,10 +112,10 @@ def transversal_options():
 # Function to create the prompt for the content generation
 def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context):
     prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {word_count} words. 
                 The purpose is {intention}
                 Here is some context: {context}
-                Task: Write the lyrics of Bohemian Rapsodyt'''
+                Task: Craft the content'''
 
     return prompts
 
@@ -124,7 +125,7 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
                 Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
                 The purpose is {intention} and you are writting to {name_receiver}
                 Here is some context: {context}
-                Task: Write the lyrics of Bohemian Rapsody'''
+                Task: Craft the communications piece'''
 
     return prompts
 
