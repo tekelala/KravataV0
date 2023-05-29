@@ -50,6 +50,19 @@ def send_message(prompts, creativity_level):
         st.error("No completion found in the API response.")
         return None
 
+    # Extract Claude's response from the JSON response
+    result = response.json()
+
+    # Print the full API response
+    st.write("API response:", result)
+
+    # Check if 'completion' is in the result
+    if 'completion' in result:
+        return result['completion']
+    else:
+        st.error("No completion found in the API response.")
+        return None
+
 # Load documents
 
 # Function to present general options
