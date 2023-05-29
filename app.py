@@ -78,8 +78,101 @@ def transversal_options():
     # Context
     context = st.text_area('Context', 'Paste any relevant information like previous communications or specific information it is important to take into account')
 
+    return intention, language, audience, tone, length_in_words, context, creativity_level
+
+    
+
+# Function to create the prompt for the content generation
+def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context):
+    prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
+                The purpose is {intention}
+                Here is some context: {context}'''
+
+    return prompts
+
+# Function to create the prompt for the communications generation
+def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, word_count, intention, context):
+    prompts = f'''Role: You are an AI assistant expert in crafting {communication_piece_type} {other_communication_piece} for Kravata and your answers needs to be always in {language}. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
+                The purpose is {intention} and you are writting to {name_receiver}
+                Here is some context: {context}'''
+
+    return prompts
+
+# Define the pages
+def home_page():
+    st.title('Home')
+    st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
+
+
+def create_content_page():
+    st.title('Create Content')
+
+    # Ask the user what type of content they want to create
+    content_type = st.selectbox(
+        'What type of content do you want to create?',
+        ['Post for Social Networks', 'Post for Newsletter', 'Article', 'Course', 'Deck', 'Brochure', 'Press release']
+    )
+
+    # If the user chooses 'Post for Social Networks', ask which social network
+    social_network = None
+    other_social_network = None
+    if content_type == 'Post for Social Networks':
+        social_network = st.selectbox(
+            'Which Social Network?',
+            ['Twitter', 'Instagram', 'LinkedIn', 'Facebook', 'TikTok', 'SnapChat', 'Telegram', 'Discord', 'Other']
+        )
+
+        # If the user chooses 'Other', provide a text box for them to specify
+        if social_network == 'Other':
+            other_social_network = st.text_input('Which one:')
+
+    intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
+
+    if st.button('Create'):
+        # Create the 'prompts' variable
+        prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
+
+        # Call the 'send_message()' function with the 'prompts' variable
+        result = send_message(prompts, creativity_level)
+
+        # Display the result
+        st.write(result['choices'][0]['text'])
+
+    st.title('Create Content')
+
+    # Ask the user what type of content they want to create
+    content_type = st.selectbox(
+        'What type of content do you want to create?',
+        ['Post for Social Networks', 'Post for Newsletter', 'Article', 'Course', 'Deck', 'Brochure', 'Press release']
+    )
+
+    # If the user chooses 'Post for Social Networks', ask which social network
+    if content_type == 'Post for Social Networks':
+        social_network = st.selectbox(
+            'Which Social Network?',
+            ['Twitter', 'Instagram', 'LinkedIn', 'Facebook', 'TikTok', 'SnapChat', 'Telegram', 'Discord', 'Other']
+        )
+
+        # If the user chooses 'Other', provide a text box for them to specify
+        if social_network == 'Other':
+            other_social_network = st.text_input('Which one:')
+
+    transversal_options()
+
     if st.button('Create'):
         # Here you can call the function to create the content or communication piece
+
+        # Define initial prompts
+        if "prompts" not in st.session_state:
+            st.session_state.prompts = []
+
+        # Create the 'prompts' variable
+        prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context)
+
+        # Call the 'send_message()' function with the 'prompts' variable
+        result = send_message(prompts, creativity_level)        # Here you can call the function to create the content or communication piece
         
         # Define initial prompts
         if "prompts" not in st.session_state:
@@ -134,52 +227,34 @@ def transversal_options():
                             except Exception as e:
                                 st.error(f"Unexpected error: {e}")
 
-# Function to create the prompt for the content generation
-def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context):
-    prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
-                The purpose is {intention}
-                Here is some context: {context}'''
+def create_communications_piece_page():
+    st.title('Create a Communications Piece')
 
-    return prompts
-
-# Function to create the prompt for the communications generation
-def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, word_count, intention, context):
-    prompts = f'''Role: You are an AI assistant expert in crafting {communication_piece_type} {other_communication_piece} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. 
-                The purpose is {intention} and you are writting to {name_receiver}
-                Here is some context: {context}'''
-
-    return prompts
-
-# Define the pages
-def home_page():
-    st.title('Home')
-    st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
-
-def create_content_page():
-    st.title('Create Content')
-
-    # Ask the user what type of content they want to create
-    content_type = st.selectbox(
-        'What type of content do you want to create?',
-        ['Post for Social Networks', 'Post for Newsletter', 'Article', 'Course', 'Deck', 'Brochure', 'Press release']
+    # Ask the user what type of communication piece they want to create
+    communication_piece_type = st.selectbox(
+        'What piece of communication do you want to create?',
+        ['Email', 'Presentation Letter', 'Instant Message', 'SMS', 'Other']
     )
 
-    # If the user chooses 'Post for Social Networks', ask which social network
-    if content_type == 'Post for Social Networks':
-        social_network = st.selectbox(
-            'Which Social Network?',
-            ['Twitter', 'Instagram', 'LinkedIn', 'Facebook', 'TikTok', 'SnapChat', 'Telegram', 'Discord', 'Other']
-        )
+    # If the user chooses 'Other', provide a text box for them to specify
+    other_communication_piece = None
+    if communication_piece_type == 'Other':
+        other_communication_piece = st.text_input('Which other communications piece:')
 
-        # If the user chooses 'Other', provide a text box for them to specify
-        if social_network == 'Other':
-            other_social_network = st.text_input('Which one:')
+    name_receiver = st.text_input('To whom are you writting for?')
+    
+    intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
 
-    transversal_options()
+    if st.button('Create'):
+        # Create the 'prompts' variable
+        prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
 
-def create_communications_piece_page():
+        # Call the 'send_message()' function with the 'prompts' variable
+        result = send_message(prompts, creativity_level)
+
+        # Display the result
+        st.write(result['choices'][0]['text'])
+
     st.title('Create a Communications Piece')
 
     # Ask the user what type of communication piece they want to create
@@ -195,6 +270,72 @@ def create_communications_piece_page():
     name_receiver = st.text_input('To whom are you writting for?')
     
     transversal_options()
+
+    if st.button('Create'):
+        # Here you can call the function to create the content or communication piece
+
+        # Define initial prompts
+        if "prompts" not in st.session_state:
+            st.session_state.prompts = []
+
+        # Create the 'prompts' variable
+        prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, word_count, intention, context)
+
+        # Call the 'send_message()' function with the 'prompts' variable
+        result = send_message(prompts, creativity_level)        # Here you can call the function to create the content or communication piece
+        
+        # Define initial prompts
+        if "prompts" not in st.session_state:
+            st.session_state.prompts = []
+
+        # Container for conversation history
+        with st.container():
+            # Display the entire conversation
+            for prompt in st.session_state.prompts:
+                if prompt['role'] == 'Human':
+                    st.write(f"You: {prompt['content']}")
+                else:  # prompt['role'] == 'Assistant'
+                    st.write(f"Claude: {prompt['content']}")
+
+        # Container for user input and Send button
+        with st.container():
+            with st.form(key='message_form'):
+                user_message = st.text_input("You: ", key=f"user_input_{len(st.session_state.prompts)}")
+                submit_button = st.form_submit_button(label='Send')
+
+                if submit_button and user_message:
+                    st.session_state.prompts.append({
+                        "role": "Human",
+                        "content": user_message
+                    })
+
+                    if st.session_state.prompts:
+                        with st.spinner('Waiting for Claude...'):
+                            try:
+                                result = send_message(st.session_state.prompts)
+
+                                # Append Claude's response to the prompts
+                                st.session_state.prompts.append({
+                                    "role": "Assistant",
+                                    "content": result['completion']
+                                })
+
+                                # Rerun the script to update the chat
+                                st.experimental_rerun()
+
+                                # Display a success message
+                                st.success("Message sent successfully!")
+
+                            except requests.exceptions.HTTPError as errh:
+                                st.error(f"HTTP Error: {errh}")
+                            except requests.exceptions.ConnectionError as errc:
+                                st.error(f"Error Connecting: {errc}")
+                            except requests.exceptions.Timeout as errt:
+                                st.error(f"Timeout Error: {errt}")
+                            except requests.exceptions.RequestException as err:
+                                st.error(f"Something went wrong: {err}")
+                            except Exception as e:
+                                st.error(f"Unexpected error: {e}")
 
 # Create a dictionary of pages
 pages = {
