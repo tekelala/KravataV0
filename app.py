@@ -164,6 +164,11 @@ def create_content_page():
 
         # Display the result
         st.write(result)
+        # Check if 'completion' is in the result
+        if 'completion' in result:
+            st.write(result['completion'])
+        else:
+            st.error("No completion found in the API response.")
 
 
 def create_communications_piece_page():
@@ -194,6 +199,12 @@ def create_communications_piece_page():
 
         # Display the result
         st.write(result)
+
+        # Check if 'completion' is in the result
+        if 'completion' in result:
+            st.write(result['completion'])
+        else:
+            st.error("No completion found in the API response.")
 
 
 # Create a dictionary of pages
