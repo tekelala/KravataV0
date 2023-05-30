@@ -132,7 +132,7 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
 
 # Define the pages
 def home_page():
-    st.image("Kravata.png")
+    st.image("Kravata.png", width=700)
     st.title('Krava Content Generator v0')
     st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
     st.image("80s_computer.png")
