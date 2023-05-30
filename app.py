@@ -75,7 +75,7 @@ def transversal_options():
     # Language
     language = st.selectbox(
         'Which Language?',
-        ['English', 'Spanish', 'Portuguese'],
+        ['English', 'Spanish', 'Portuguese', 'Japanese'],
         key='language_selectbox'
     )
 
@@ -111,9 +111,9 @@ def transversal_options():
  
 
 # Function to create the prompt for the content generation
-def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context):
+def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context):
     prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {word_count} words. No need to write what you are doing or writting anything diferent than your answer. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
                 The purpose is {intention}
                 Here is some context: {context}
                 Task: Craft the content'''
@@ -121,12 +121,23 @@ def prompt_creator_content(content_type, social_network, other_social_network, i
     return prompts
 
 # Function to create the prompt for the communications generation
-def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, word_count, intention, context):
+def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context):
     prompts = f'''Role: You are an AI assistant expert in crafting {communication_piece_type} {other_communication_piece} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {word_count} words. No need to write what you are doing or writting anything diferent than your answer. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
                 The purpose is {intention} and you are writting to {name_receiver}
                 Here is some context: {context}
                 Task: Craft the communications piece'''
+
+    return prompts
+
+# Function to create the prompt for the decks generation
+def prompt_creator_decks(language, audience, tone, length_in_words, intention, context):
+    prompts = f'''Role: You are Nancy Duarte an expert in crafting slide Decks for startups. You are creating a slide Deck for Kravata and your answers needs to be always in {language}. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
+                The purpose of the deck is {intention}.
+                Here is some context: {context}
+                Task: Craft the slides deck with the following steps: Step 1. The Title of each slide and the information that should be in the slide; 
+                Step 2 A suggestion of the visuals in the slide and Step 3 The rationale behind the slide, why it is important'''
 
     return prompts
 
@@ -272,11 +283,47 @@ def create_communications_piece_page():
                     st.session_state.result = create_text(st.session_state.prompts, creativity_level)
                 st.write(st.session_state.result)
 
+def create_decks_page():
+    st.image("Kravata.png", width=400)
+    st.title('Create Decks')
+
+    # Initialize session state variables if not already done
+    if "result" not in st.session_state:
+        st.session_state.result = ""
+    if "prompts" not in st.session_state:
+        st.session_state.prompts = ""
+
+     intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
+
+    if st.button('Create'):
+        with st.spinner('Writting...'):
+            # Create the 'prompts' variable
+            st.session_state.prompts = prompt_creator_decks(language, audience, tone, length_in_words, intention, context)
+
+            # Call the 'send_message()' function with the 'prompts' variable
+            st.session_state.result = create_text(st.session_state.prompts, creativity_level)
+
+            # Display the prompt
+            st.write(st.session_state.prompts)
+            # Display the result
+            st.write(st.session_state.result)
+
+    # Allow the user to propose changes
+    if st.session_state.result != "":
+        user_changes = st.text_input('Propose changes to the communications piece:')
+        if st.button('Apply Changes'):
+            if user_changes:
+                st.session_state.prompts += f" Please change the communications piece with the following instructions: {user_changes.strip()}"
+                with st.spinner('Applying changes...'):
+                    st.session_state.result = create_text(st.session_state.prompts, creativity_level)
+                st.write(st.session_state.result)
+
 # Create a dictionary of pages
 pages = {
     'Home': home_page,
     'Create Content': create_content_page,
     'Create a Communications Piece': create_communications_piece_page,
+    'Decks': create_decks_page,
     'Chat': chat_page
 }
 
