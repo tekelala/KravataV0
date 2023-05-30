@@ -198,7 +198,7 @@ def create_content_page():
     # Ask the user what type of content they want to create
     content_type = st.selectbox(
         'What type of content do you want to create?',
-        ['Post for Social Networks', 'Post for Newsletter', 'Article', 'Course', 'Deck', 'Brochure', 'Press release'],
+        ['Post for Social Networks', 'Post for Newsletter', 'Article', 'Course', 'Brochure', 'Press release'],
         key='content_type_selectbox'
     )
 
