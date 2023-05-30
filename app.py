@@ -98,7 +98,7 @@ def transversal_options():
     )
 
     # Creativity level
-    creativity_level = st.number_input('Creativity level', min_value=0.0, max_value=1.0, step=0.1, format="%.1f")
+    creativity_level = st.number_input('Creativity level', min_value=0.0, max_value=1.0, step=0.1, value=0.7, format="%.1f")
 
     # Length in words
     length_in_words = st.number_input('How long in words?', min_value=1, value=500, format="%i")
