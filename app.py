@@ -227,7 +227,7 @@ def create_content_page():
             st.session_state.result = create_text(st.session_state.prompts, creativity_level)
 
             # Display the prompt
-            st.write(st.session_state.prompts)
+            # st.write(st.session_state.prompts)
             # Display the result
             st.write(st.session_state.result)
 
@@ -276,7 +276,7 @@ def create_communications_piece_page():
             st.session_state.result = create_text(st.session_state.prompts, creativity_level)
 
             # Display the prompt
-            st.write(st.session_state.prompts)
+            #st.write(st.session_state.prompts)
             # Display the result
             st.write(st.session_state.result)
 
@@ -311,7 +311,7 @@ def create_decks_page():
             st.session_state.result = create_text(st.session_state.prompts, creativity_level)
 
             # Display the prompt
-            st.write(st.session_state.prompts)
+            #st.write(st.session_state.prompts)
             # Display the result
             st.write(st.session_state.result)
 
