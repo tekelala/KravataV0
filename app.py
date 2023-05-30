@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+import pandas as pd
 
 # Initialize session state variables
 if "result" not in st.session_state:
@@ -47,8 +48,12 @@ def create_text(prompt, temperature):
     # Return Claude's response as a string
     return result['completion']
 
+# Function to read .txt file
+def read_txt_file(file):
+    return file.read().decode()
 
 # Load documents
+kravata_memo = read_txt_file(kravata.txt)
 
 # Function to present general options
 def transversal_options():
@@ -82,7 +87,7 @@ def transversal_options():
     # Audience
     audience = st.selectbox(
         'Who is the audience?',
-        ['Exchange', 'Trader', 'Partner', 'Investor', 'Kravata Team', 'Traditional financer', 'Other'],
+        ['Exchange', 'Trader', 'Partner', 'Investor', 'Kravata Team', 'Traditional financer', 'General', 'Other'],
         key='audience_selectbox'
     )
 
@@ -112,11 +117,12 @@ def transversal_options():
 
 # Function to create the prompt for the content generation
 def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context):
-    prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata and your answers needs to be always in {language}. 
+    prompts = f'''Role: You are an AI assistant expert in crafting {content_type} {social_network} {other_social_network} for Kravata. and your answers needs to be always in {language}. 
                 Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
                 The purpose is {intention}
                 Here is some context: {context}
-                Task: Craft the content'''
+                Task 1: Deeply analize the following information about Kravata: {kravata_memo}. And use it in your answers.
+                Task 2: Craft the content'''
 
     return prompts
 
@@ -126,7 +132,7 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
                 Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
                 The purpose is {intention} and you are writting to {name_receiver}
                 Here is some context: {context}
-                Task: Craft the communications piece'''
+                Task 1: Deeply analize the following information about Kravata: {kravata_memo}. And use it in your answers.                Task 2: Craft the communications piece'''
 
     return prompts
 
@@ -136,7 +142,8 @@ def prompt_creator_decks(language, audience, tone, length_in_words, intention, c
                 Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
                 The purpose of the deck is {intention}.
                 Here is some context: {context}
-                Task: Craft the slides deck with the following steps: Step 1. The Title of each slide and the information that should be in the slide; 
+                Task 1: Deeply analize the following information about Kravata: {kravata_memo}. And use it in your answers.
+                Task 2: Craft the slides deck with the following steps: Step 1. The Title of each slide and the information that should be in the slide; 
                 Step 2 A suggestion of the visuals in the slide and Step 3 The rationale behind the slide, why it is important'''
 
     return prompts
