@@ -145,6 +145,10 @@ def chat_page():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = ""
 
+    # Display the chat history
+    st.text(st.session_state.chat_history)
+
+    # User input field and 'Send' button
     with st.form(key='chat_form'):
         user_input = st.text_input('Type your message:')
         submit_button = st.form_submit_button('Send')
@@ -157,9 +161,8 @@ def chat_page():
                 response = create_text(st.session_state.chat_history + "Assistant:", 0.5)
                 # Append Claude's response to chat history
                 st.session_state.chat_history += f"Assistant: {response}\n\n"
-                # Display the chat history
-                st.write(st.session_state.chat_history)
-
+                # Rerun the script to update the chat history display
+                st.experimental_rerun()
 
 
 def create_content_page():
