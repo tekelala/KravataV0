@@ -293,7 +293,7 @@ def create_decks_page():
     if "prompts" not in st.session_state:
         st.session_state.prompts = ""
 
-     intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
+    intention, language, audience, tone, length_in_words, context, creativity_level = transversal_options()
 
     if st.button('Create'):
         with st.spinner('Writting...'):
