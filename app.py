@@ -59,7 +59,7 @@ def transversal_options():
     # LLM Model
     llm_model = st.selectbox(
         'LLM Model',
-        ['ChatGPT', 'Claude'],
+        ['Claude', 'ChatGPT'],
         key='model_selectbox'
     )
 
@@ -137,6 +137,25 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
 def home_page():
     st.title('Home')
     st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
+
+def chat_page():
+    st.title('Chat with Claude')
+
+    # Initialize session state variables if not already done
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = ""
+
+    user_input = st.text_input('Type your message:')
+    if st.button('Send'):
+        with st.spinner('Chatting...'):
+            # Append user input to chat history
+            st.session_state.chat_history += f"Human: {user_input}\n\n"
+            # Generate Claude's response
+            response = create_text(st.session_state.chat_history + "Assistant:", 0.5)
+            # Append Claude's response to chat history
+            st.session_state.chat_history += f"Assistant: {response}\n\n"
+            # Display the chat history
+            st.write(st.session_state.chat_history)
 
 
 def create_content_page():
@@ -251,7 +270,8 @@ def create_communications_piece_page():
 pages = {
     'Home': home_page,
     'Create Content': create_content_page,
-    'Create a Communications Piece': create_communications_piece_page
+    'Create a Communications Piece': create_communications_piece_page,
+    'Chat': chat_page  # Add this line
 }
 
 # Use the sidebar to select the page
