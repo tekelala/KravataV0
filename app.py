@@ -133,8 +133,9 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
 # Define the pages
 def home_page():
     st.image("Kravata.png")
-    st.title('Home')
+    st.title('Krava Content Generator v0')
     st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
+    st.image("Kravata.png")
 
 def chat_page():
     st.image("Kravata.png")
@@ -165,7 +166,6 @@ def chat_page():
                 st.session_state.chat_history += f"Assistant: {response}\n\n"
                 # Rerun the script to update the chat history display
                 st.experimental_rerun()
-
 
 def create_content_page():
     st.image("Kravata.png")
@@ -223,8 +223,6 @@ def create_content_page():
                     st.session_state.result = create_text(st.session_state.prompts, creativity_level)
                 st.write(st.session_state.result)
 
-
-
 def create_communications_piece_page():
     st.image("Kravata.png")
     st.title('Create a Communications Piece')
@@ -273,7 +271,6 @@ def create_communications_piece_page():
                 with st.spinner('Applying changes...'):
                     st.session_state.result = create_text(st.session_state.prompts, creativity_level)
                 st.write(st.session_state.result)
-
 
 # Create a dictionary of pages
 pages = {
