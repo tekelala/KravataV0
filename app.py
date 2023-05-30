@@ -48,8 +48,6 @@ def create_text(prompt, temperature):
     return result['completion']
 
 
-
-
 # Load documents
 
 # Function to present general options
@@ -110,8 +108,7 @@ def transversal_options():
     context = st.text_area('Context. Paste any relevant information like previous communications or specific information it is important to take into account')
 
     return intention, language, audience, tone, length_in_words, context, creativity_level
-
-    
+ 
 
 # Function to create the prompt for the content generation
 def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, word_count, context):
@@ -135,10 +132,12 @@ def prompt_creator_comms(communication_piece_type, other_communication_piece, na
 
 # Define the pages
 def home_page():
+    st.image("Kravata.png")
     st.title('Home')
     st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
 
 def chat_page():
+    st.image("Kravata.png")
     st.title('Chat with Claude')
 
     # Initialize session state variables if not already done
@@ -169,6 +168,7 @@ def chat_page():
 
 
 def create_content_page():
+    st.image("Kravata.png")
     st.title('Create Content')
 
     # Initialize session state variables if not already done
@@ -226,6 +226,7 @@ def create_content_page():
 
 
 def create_communications_piece_page():
+    st.image("Kravata.png")
     st.title('Create a Communications Piece')
 
     # Initialize session state variables if not already done
@@ -273,15 +274,13 @@ def create_communications_piece_page():
                     st.session_state.result = create_text(st.session_state.prompts, creativity_level)
                 st.write(st.session_state.result)
 
-        
-
 
 # Create a dictionary of pages
 pages = {
     'Home': home_page,
     'Create Content': create_content_page,
     'Create a Communications Piece': create_communications_piece_page,
-    'Chat': chat_page  # Add this line
+    'Chat': chat_page
 }
 
 # Use the sidebar to select the page
