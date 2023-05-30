@@ -49,11 +49,11 @@ def create_text(prompt, temperature):
     return result['completion']
 
 # Function to read .txt file
-def read_txt_file(file):
-    return file.read().decode()
-
+def read_txt_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
 # Load documents
-kravata_memo = read_txt_file(kravata.txt)
+kravata_memo = read_txt_file("kravata.txt")
 
 # Function to present general options
 def transversal_options():
