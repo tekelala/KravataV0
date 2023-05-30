@@ -135,7 +135,7 @@ def home_page():
     st.image("Kravata.png")
     st.title('Krava Content Generator v0')
     st.write('Welcome to our tool! Here you can create content or create a communications piece. Use the sidebar to navigate between the pages.')
-    st.image("Kravata.png")
+    st.image("80s_computer.png")
 
 def chat_page():
     st.image("Kravata.png")
