@@ -145,17 +145,21 @@ def chat_page():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = ""
 
-    user_input = st.text_input('Type your message:')
-    if st.button('Send'):
-        with st.spinner('Chatting...'):
-            # Append user input to chat history
-            st.session_state.chat_history += f"Human: {user_input}\n\n"
-            # Generate Claude's response
-            response = create_text(st.session_state.chat_history + "Assistant:", 0.5)
-            # Append Claude's response to chat history
-            st.session_state.chat_history += f"Assistant: {response}\n\n"
-            # Display the chat history
-            st.write(st.session_state.chat_history)
+    with st.form(key='chat_form'):
+        user_input = st.text_input('Type your message:')
+        submit_button = st.form_submit_button('Send')
+
+        if submit_button and user_input:
+            with st.spinner('Chatting...'):
+                # Append user input to chat history
+                st.session_state.chat_history += f"Human: {user_input}\n\n"
+                # Generate Claude's response
+                response = create_text(st.session_state.chat_history + "Assistant:", 0.5)
+                # Append Claude's response to chat history
+                st.session_state.chat_history += f"Assistant: {response}\n\n"
+                # Display the chat history
+                st.write(st.session_state.chat_history)
+
 
 
 def create_content_page():
