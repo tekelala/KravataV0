@@ -138,7 +138,7 @@ def home_page():
     st.image("80s_computer.png")
 
 def chat_page():
-    st.image("Kravata.png")
+    st.image("Kravata.png", width=400)
     st.title('Chat with Claude')
 
     # Initialize session state variables if not already done
@@ -168,7 +168,7 @@ def chat_page():
                 st.experimental_rerun()
 
 def create_content_page():
-    st.image("Kravata.png")
+    st.image("Kravata.png", width=400)
     st.title('Create Content')
 
     # Initialize session state variables if not already done
@@ -224,7 +224,7 @@ def create_content_page():
                 st.write(st.session_state.result)
 
 def create_communications_piece_page():
-    st.image("Kravata.png")
+    st.image("Kravata.png", width=400)
     st.title('Create a Communications Piece')
 
     # Initialize session state variables if not already done
