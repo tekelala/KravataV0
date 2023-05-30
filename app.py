@@ -310,7 +310,7 @@ def create_decks_page():
 
     # Allow the user to propose changes
     if st.session_state.result != "":
-        user_changes = st.text_input('Propose changes to the communications piece:')
+        user_changes = st.text_input('Propose changes to the deck:')
         if st.button('Apply Changes'):
             if user_changes:
                 st.session_state.prompts += f" Please change the communications piece with the following instructions: {user_changes.strip()}"
