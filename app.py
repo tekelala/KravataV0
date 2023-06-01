@@ -54,6 +54,7 @@ def read_txt_file(file_path):
         return file.read()
 # Load documents
 kravata_memo = read_txt_file("kravata.txt")
+customers_segments = read_txt_file("customers.txt")
 
 # Function to present general options
 def transversal_options():
@@ -116,33 +117,37 @@ def transversal_options():
  
 
 # Function to create the prompt for the content generation
-def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context):
+def prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context, customer_segments):
     prompts = f'''Role: You are an AI assistant part of the Kravata team and you are an expert in crafting {content_type} {social_network} {other_social_network} for Kravata. and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to a maximum of {length_in_words} words. No need to write what you are doing, who you are or writting anything diferent than your answer. 
                 The purpose is {intention}
                 Here is some context: {context}
-                Task 1: Deeply analize the following information about Kravata: {kravata_memo}. And use it in your answers.
+                Task 1: Deeply analize the following information about Kravata: {kravata_memo} and analyze the following text {customer_segments} 
+                to find relevant information about the audiences. And use it in your answers.
                 Task 2: Craft the content'''
 
     return prompts
 
 # Function to create the prompt for the communications generation
-def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context):
+def prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context, customer_segments):
     prompts = f'''Role: You are an AI assistant part of the Kravata team and you are an expert in crafting {communication_piece_type} {other_communication_piece} for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing, who you are or writting anything diferent than your answer. 
                 The purpose is {intention} and you are writting to {name_receiver}
                 Here is some context: {context}
-                Task 1: Deeply analize the following information about Kravata: {kravata_memo}. And use it in your answers.                Task 2: Craft the communications piece'''
+                Task 1: Deeply analize the following information about Kravata: {kravata_memo} and analyze the following text {customer_segments} 
+                to find relevant information about the audiences. And use it in your answers.                
+                Task 2: Craft the communications piece'''
 
     return prompts
 
 # Function to create the prompt for the decks generation
-def prompt_creator_decks(language, audience, tone, length_in_words, intention, context):
+def prompt_creator_decks(language, audience, tone, length_in_words, intention, context, customer_segments):
     prompts = f'''Role: You are Nancy Duarte part of the Kravata team an expert in crafting slide Decks for startups. You are creating a slide Deck for Kravata and your answers needs to be always in {language}. 
-                Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing or writting anything diferent than your answer. 
+                Your audience is {audience} and your tone should be {tone}, limit your response to {length_in_words} words. No need to write what you are doing, who you are or writting anything diferent than your answer. 
                 The purpose of the deck is {intention}.
                 Here is some context: {context}
-                Task 1: Deeply analize the following information about Kravata: {kravata_memo}. And use it in your answers.
+                Task 1: Deeply analize the following information about Kravata: {kravata_memo} and analyze the following text {customer_segments} 
+                to find relevant information about the audiences. And use it in your answers.
                 Task 2: Craft the slides deck with the following steps: Step 1. The Title of each slide and the information that should be in the slide; 
                 Step 2 A suggestion of the visuals in the slide and Step 3 The rationale behind the slide, why it is important'''
 
