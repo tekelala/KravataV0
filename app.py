@@ -310,7 +310,7 @@ def create_decks_page():
     if st.button('Create'):
         with st.spinner('Writting...'):
             # Create the 'prompts' variable
-            st.session_state.prompts = prompt_creator_decks(language, audience, tone, length_in_words, intention, context)
+            st.session_state.prompts = prompt_creator_decks(language, audience, tone, length_in_words, intention, context, customers_segments)
 
             # Call the 'send_message()' function with the 'prompts' variable
             st.session_state.result = create_text(st.session_state.prompts, creativity_level)
@@ -329,6 +329,7 @@ def create_decks_page():
                 with st.spinner('Applying changes...'):
                     st.session_state.result = create_text(st.session_state.prompts, creativity_level)
                 st.write(st.session_state.result)
+
 
 # Create a dictionary of pages
 pages = {
