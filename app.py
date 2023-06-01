@@ -275,7 +275,7 @@ def create_communications_piece_page():
     if st.button('Create'):
         with st.spinner('Writting...'):
             # Create the 'prompts' variable
-            st.session_state.prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context)
+            st.session_state.prompts = prompt_creator_comms(communication_piece_type, other_communication_piece, name_receiver, language, audience, tone, length_in_words, intention, context, customers_segments)
 
             # Call the 'send_message()' function with the 'prompts' variable
             st.session_state.result = create_text(st.session_state.prompts, creativity_level)
