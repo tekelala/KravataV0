@@ -226,7 +226,7 @@ def create_content_page():
     if st.button('Create'):
         with st.spinner('Writting...'):
             # Create the 'prompts' variable
-            st.session_state.prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context)
+            st.session_state.prompts = prompt_creator_content(content_type, social_network, other_social_network, intention, language, audience, tone, length_in_words, context, customers_segments)
 
             # Call the 'send_message()' function with the 'prompts' variable
             st.session_state.result = create_text(st.session_state.prompts, creativity_level)
